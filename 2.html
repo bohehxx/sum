@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>节流</title>
+    </head>
+    <body>
+        <div
+        id="content"
+        style="
+          height: 150px;
+          line-height: 150px;
+          text-align: center;
+          color: #fff;
+          background-color: #ccc;
+          font-size: 80px;
+        "
+      ></div>
+    </body>
+    <script>
+        function throttle(func,wait,type){
+            if(type==1){
+                var previous =0;
+            }else{
+                var timeout;
+            }
+            return function(){
+                let context = this
+                let args = arguments
+                if(type==1){
+                    let now = Date.now()
+                    if(now-previous>wait){
+                        func.apply(context,args)
+                        previous = now;
+                    }
+                }else{
+                    if(!timeout){
+                        setTimeout(()=>{
+                            timeout = null
+                           func.apply(context,args)
+                        },wait)
+                    }
+                }
+            }
+
+        }
+        let num = 1;
+    let content = document.getElementById("content");
+
+    function count() {
+      content.innerHTML = num++;
+    }
+    content.onmousemove = throttle(count,1000,2);
+    </script>
+</html>
+<!-- 所谓节流，就是指连续触发事件但是在 n 秒中只执行一次函数。节流会稀释函数的执行频率。 -->
+<!-- 防抖是将多次执行变为最后一次执行，节流是将多次执行变为每隔一段时间执行 -->

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>CSS盒模型</title>
+    <style media="screen">
+      html *{
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+      <section class="box" id="sec">
+        <style media="screen">
+          #sec{
+            background: #f00;
+            overflow:hidden;
+          }
+          .child{
+            height: 100px;
+            margin-top: 10px;
+            background: yellow
+          }
+        </style>
+        <article class="child"></article>
+      </section>
+      <!-- BFC垂直方向间距重叠 -->
+      <section id="margin">
+        <style>
+          #margin{
+            background:pink;
+            overflow:hidden;
+          }
+          #margin>p{
+            margin:5px auto 25px;
+            background:red;
+          }
+        </style>
+        <p>1</p>
+        <div style="overflow:hidden;">
+            <p>2</p>
+        </div>
+        
+        <p>3</p>
+      </section>
+      <!-- BFC不与float重叠 -->
+      <section id="layout">
+        <style>
+          #layout{
+            background:red;
+          }
+          #layout .left{
+            float:left;
+            width:100px;
+            height:100px;
+            background:pink;
+          }
+          #layout .right{
+            height:110px;
+            background:#ccc;
+            overflow:auto;
+          }
+        </style>
+        <div class="left"></div>
+        <div class="right"></div>
+      </section>
+      <!-- BFC子元素即使是float也会参与计算 -->
+      <section id="float">
+        <style>
+          #float{
+            background:red;
+            overflow:hidden;
+          }
+          #float .float{
+            float:left;
+            font-size:30px;
+          }
+        </style>
+        <div class="float">
+          我是浮动元素
+        </div>
+      </section>
+  </body>
+</html>
+<!-- BFC块级格式上下文 -->
+<!-- BFC这个元素垂直方向上的边距会发生重叠 -->
+<!-- BFC的区域不会与float box重叠(解决浮动元素文字环绕问题)  -->
+<!-- BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。 -->
+<!-- 计算BFC的高度时，浮动元素也参与计算（可用于解决浮动造成的高度塌陷问题） -->
+<!-- 如何触发BFC？
+根据定义，满足下列条件中至少一项，即可触发 BFC：
+float 的值不为none
+position 的值不为static或者relative
+display的值为 table-cell, table-caption, inline-block, flex, 或者 inline-flex中的其中一个
+overflow的值不为visible  -->
